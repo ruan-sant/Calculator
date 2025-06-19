@@ -2,16 +2,20 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Calculator</title>
   <style>
   * {
-    font-family: Arial;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
     color: white;
+    margin: 0;
+    padding: 0;
   }
 
   body {
     height: 98vh;
+    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,13 +32,14 @@
     display: flex;
     flex-direction: column;
     width: 50vw;
-    max-width: 500px;
+    max-width: 400px;
   }
+
   .numbers-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-
   }
+
   .number, .signs, .operator, .clear, .color {
     background-color: rgb(55, 55, 55);
     font-size: 3em;
@@ -53,6 +58,8 @@
     cursor: pointer;
     transition: opacity 0.15s;
     transition: background 0.5s;
+    border-radius: 50%;
+    aspect-ratio: 1;
   }
 
   .char {
@@ -99,6 +106,7 @@
 
   .display-container {
     position: relative;
+    padding: 10px;
   }
 
   .display {
@@ -113,6 +121,31 @@
     position: absolute;
     top: -25px;
     color: rgb(115, 115, 115);
+  }
+
+  @media (max-width: 600px) {
+    .calculator {
+      width: 70vw;
+    }
+    .number, .signs, .operator, .clear, .color {
+      width: 20vw;
+      height: 20vw;
+      max-width: 90px;
+      max-height: 90px;
+      font-size: 2.5em;
+      margin: 6px;
+      margin-left: 0;
+      margin-bottom: 6px;
+    }
+    .operator {
+      font-size: 3.5em;
+    }
+    .display {
+      font-size: 4.5em;
+    }
+    .display-top {
+      font-size: 1.5em;
+    }
   }
 
   </style>
