@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <style>
+  * {
+    font-family: Arial;
+    color: white;
+  }
+
+  body {
+    height: 98vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    transition: background 0.5s;
+  }
+
+  .body-purple {
+    background: linear-gradient(to right, #b19cd7, #c0afe2, #cec2eb, #ddd5f3);
+    transition: background 0.5s;
+  }
+
+  .calculator {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    max-width: 500px;
+  }
+  .numbers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+
+  }
+  .number, .signs, .operator, .clear, .color {
+    background-color: rgb(55, 55, 55);
+    font-size: 3em;
+    border-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 12vw;
+    height: 12vw;
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 10vw;
+    margin: 10px;
+    margin-left: 0;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    transition: background 0.5s;
+  }
+
+  .char {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .buttons-purple {
+    background: rgb(169, 96, 211);
+    /* background: linear-gradient(to right, rgb(175, 101, 207), #a020f0); */
+    transition: background 0.5s;
+  }
+
+  .color {
+    background: rgb(169, 96, 211);
+    transition: background 0.5s;
+    /* background: linear-gradient(to right, #6a0dad, #a020f0); */
+  }
+
+  .color-toggle {
+    background: rgb(55, 55, 55);
+    transition: background 0.5s;
+  }
+
+  .number:hover, .signs:hover, .operator:hover, .clear:hover, .color:hover {
+    opacity: 0.7;
+  }
+
+  .number:active, .signs:active, .operator:active, .clear:active, .js-active, .color:active{
+    opacity: 0.4;
+  }
+
+  .operator {
+    font-size: 5em;
+    background-color: rgb(255, 150, 0);
+    transition: background 0.5s;
+  }
+
+  .operators-purple {
+    background: rgb(31, 208, 240);
+    transition: background 0.5s;
+  }
+
+  .display-container {
+    position: relative;
+  }
+
+  .display {
+    font-size: 6em;
+    margin-bottom: 2vh;
+    word-wrap: break-word;
+    text-shadow: 5px 2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .display-top {
+    font-size: 1.8em;
+    position: absolute;
+    top: -25px;
+    color: rgb(115, 115, 115);
+  }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="calculator">
+      <div class="display-container">
+        <div class="display-top js-display-top"></div>
+        <div class="display js-display">
+          0
+        </div>
+      </div>
+      <div class="numbers-grid">
+        <div class="number js-number1" onclick="
+          updateDisplay('1');
+        ">
+          <div class="char">1</div>
+        </div>
+        <div class="number js-number2" onclick="
+          updateDisplay('2');
+        ">
+          <div class="char">2</div>
+        </div>
+        <div class="number js-number3" onclick="
+          updateDisplay('3');
+        ">
+          <div class="char">3</div>
+        </div>
+        <div class="operator js-operatorPlus" onclick="
+          upperDisplay(' &plus;', '+');
+        ">
+          <div class="char">&plus;</div>
+        </div>
+        <div class="number js-number4" onclick="
+          updateDisplay('4');
+        ">
+          <div class="char">4</div>
+        </div>
+        <div class="number js-number5" onclick="
+          updateDisplay('5');
+        ">
+          <div class="char">5</div>
+        </div>
+        <div class="number js-number6" onclick="
+          updateDisplay('6');
+        ">
+          <div class="char">6</div>
+        </div>
+        <div class="operator js-operatorMinus" onclick="
+          upperDisplay(' &minus;', '-');
+        ">
+          <div class="char">&#8722;</div>
+        </div>
+        <div class="number js-number7" onclick="
+          updateDisplay('7');
+        ">
+          <div class="char">7</div>
+        </div>
+        <div class="number js-number8" onclick="
+          updateDisplay('8');
+        ">
+          <div class="char">8</div>
+        </div>
+        <div class="number js-number9" onclick="
+          updateDisplay('9');
+        ">
+          <div class="char">9</div>
+        </div>
+        <div class="operator js-operatorTimes" onclick="
+         upperDisplay(' &times;', '*');
+        ">
+          <div class="char">&times;</div>
+        </div>
+        <div class="number js-number0" onclick="
+          updateDisplay('0');
+        ">
+          <div class="char">0</div>
+        </div>
+        <div class="number js-numberDot" onclick="
+          updateDisplay(',');
+        ">
+          <div class="char">,</div>
+        </div>
+        <div class="number js-numberEqual" onclick="
+         result();
+        ">
+          <div class="char">=</div>
+        </div>
+        <div class="operator js-operatorDivide" onclick="
+          upperDisplay(' &divide;', '/');
+        ">
+          <div class="char">&divide;</div>
+        </div>
+        <div class="clear js-clear" onclick="
+          updateDisplay('clear');
+        ">
+          <div class="char">AC</div>
+        </div>
+        <div class="color js-color" onclick="
+          toggleColor();
+        ">
+          <div class="char">🖌️</div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+
+  let dot = false;
+  let currentOperator = '';
+  let firstNumber = 0;
+  let calculation = 0;
+  let operationInProgress = false;
+  let displayValue = 0;
+
+  function toggleColor () {
+    let operatorColor = document.querySelectorAll('.operator');
+    let bodyColor = document.querySelector('body');
+    let numberColor = document.querySelectorAll('.number');
+    
+    if (bodyColor.classList.contains('body-purple') === true) {
+      bodyColor.classList.remove('body-purple');
+      document.querySelector('.js-clear').classList.remove('buttons-purple');
+      operatorColor.forEach(div => {
+        div.classList.remove('operators-purple');
+      });
+      numberColor.forEach(div => {
+        div.classList.remove('buttons-purple');
+      });
+      document.querySelector('.js-color').classList.remove('color-toggle');
+
+    } else if (bodyColor.classList.contains('body-purple') === false) {
+      bodyColor.classList.add('body-purple');
+      document.querySelector('.js-clear').classList.add('buttons-purple');
+      operatorColor.forEach(div => {
+        div.classList.add('operators-purple');
+      });
+      numberColor.forEach(div => {
+        div.classList.add('buttons-purple');
+      });
+      document.querySelector('.js-color').classList.add('color-toggle');
+    }
+  }
+
+  function result () {
+    if ((document.querySelector('.js-display-top').innerText !== '') && (currentOperator !== 'equal')) {
+      let secondNumber = document.querySelector('.js-display').innerText;      
+
+      firstNumber = firstNumberText.replace(/,/g, '.');
+      secondNumber = secondNumber.replace(/,/g, '.');
+
+      firstNumber = Number(firstNumber);
+      secondNumber = Number(secondNumber);
+
+      if (isNaN(firstNumber) === true) {
+        console.log('true');
+        firstNumberText = firstNumberText.slice(0, -1);
+        firstNumber = firstNumberText.replace(/,/g, '.');
+        firstNumber = Number(firstNumber);
+      } 
+
+      console.log('first number ' + firstNumber);
+      console.log('second number ' + secondNumber);
+
+      if (currentOperator === '+') {
+        calculation = firstNumber + secondNumber;
+      } else if (currentOperator === '-') {
+        calculation = firstNumber - secondNumber;
+      } else if (currentOperator === '*') {
+        calculation = Math.round((firstNumber * secondNumber) * 100) / 100;
+      } else if (currentOperator === '/') {
+        if (secondNumber === 0) {
+          calculation = 'Erro';
+        } else {
+          calculation = Math.round((firstNumber / secondNumber) * 100) / 100;
+        }
+      } 
+
+      if (typeof calculation === 'number') {
+        document.querySelector('.js-display').innerText = calculation.toLocaleString('pt-BR');
+      } else {
+        document.querySelector('.js-display').innerText = calculation;
+      }
+
+      document.querySelector('.js-display-top').innerText = '';
+
+    } else {
+      upperDisplay(' =', 'equal');
+    }
+  operationInProgress = true;
+  }
+
+  function upperDisplay (operator, opSign) {
+    if (document.querySelector('.js-display-top').innerText !== '' && opSign !== 'equal') {
+      firstNumberText = document.querySelector('.js-display-top').innerText;
+      result();
+      currentOperator = opSign;
+      document.querySelector('.js-display-top').innerText = document.querySelector('.js-display').innerText + operator;
+      firstNumberText = document.querySelector('.js-display-top').innerText;
+    } else {
+      firstNumberText = document.querySelector('.js-display').innerText;
+      document.querySelector('.js-display-top').innerText = document.querySelector('.js-display').innerText + operator;
+      currentOperator = opSign;
+      operationInProgress = true;
+    }
+  }
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === '1' || event.key === '2' || event.key === '3' || event.key === '4' || event.key === '5' || event.key === '6' || event.key === '7'
+       || event.key === '8' || event.key === '9' || event.key === '0') {
+    updateDisplay(event.key);
+    document.querySelector('.js-number' + event.key).classList.add('js-active');
+    } else if (event.key === ',') {
+      updateDisplay(event.key);
+      document.querySelector('.js-numberDot').classList.add('js-active');
+    } else if (event.key === 'Backspace') {
+      updateDisplay('clear');
+      document.querySelector('.js-clear').classList.add('js-active');
+    } else if (event.key === 'Enter') {
+      result();
+      document.querySelector('.js-numberEqual').classList.add('js-active');
+    } else if (event.key === '+') {
+      upperDisplay(' \u002B', '+');
+      document.querySelector('.js-operatorPlus').classList.add('js-active');
+    } else if (event.key === '-') {
+      upperDisplay(' \u2212', '-');
+      document.querySelector('.js-operatorMinus').classList.add('js-active');
+    } else if (event.key === '*') {
+      upperDisplay(' \u00D7', '*');
+      document.querySelector('.js-operatorTimes').classList.add('js-active');
+    } else if (event.key === '/') {
+      upperDisplay(' \u00F7', '/');
+      document.querySelector('.js-operatorDivide').classList.add('js-active');
+    }
+  });
+
+  document.addEventListener('keyup', function(event) {
+    if (event.key === '1' || event.key === '2' || event.key === '3' || event.key === '4' || event.key === '5' || event.key === '6' || event.key === '7'
+       || event.key === '8' || event.key === '9' || event.key === '0') {
+    document.querySelector('.js-number' + event.key).classList.remove('js-active');
+    } else if (event.key === ',') {
+      document.querySelector('.js-numberDot').classList.remove('js-active');
+    } else if (event.key === 'Backspace') {
+      document.querySelector('.js-clear').classList.remove('js-active');
+    } else if (event.key === 'Enter') {
+      document.querySelector('.js-numberEqual').classList.remove('js-active');
+    } else if (event.key === '+') {
+      document.querySelector('.js-operatorPlus').classList.remove('js-active');
+    } else if (event.key === '-') {
+      document.querySelector('.js-operatorMinus').classList.remove('js-active');
+    } else if (event.key === '*') {
+      document.querySelector('.js-operatorTimes').classList.remove('js-active');
+    } else if (event.key === '/') {
+      document.querySelector('.js-operatorDivide').classList.remove('js-active');
+    }
+  });
+
+  function updateDisplay(char) {
+    if (operationInProgress === false) {
+      displayValue = document.querySelector('.js-display').innerText;
+    } else if (operationInProgress === true) {
+      displayValue = '0';
+      operationInProgress = false;
+      dot = false;
+    }
+
+    displayValue = displayValue.replace(/\./g, '');
+
+    if (displayValue === '0' && char === ',') {
+      displayValue = '0' + char;
+      dot = true;
+    } else if (displayValue === '0' && char !== 'clear') {
+      displayValue = char;
+    } else if (char === 'clear') {
+      displayValue = 0;
+      dot = false;
+      lenght = -1;
+      document.querySelector('.js-display-top').innerText = '';
+    } else if (displayValue.length < 12) {
+      if (char === ',' && dot === false) {
+        displayValue += char;
+        dot = true;
+      } else if (char === ',' && dot === true) {        
+      } else {
+        displayValue += char;
+      }
+    }
+
+    let displayedNumber = Number(displayValue);
+    if (!isNaN(displayedNumber)) {
+      document.querySelector('.js-display').innerText = displayedNumber.toLocaleString('pt-BR');
+    } else {
+      document.querySelector('.js-display').innerText = displayValue;
+    }
+
+    /*
+    if (displayValue.length === 4 && dot === false) {
+      displayValue = displayValue.substring(0, 1) + '.' + displayValue.substring(1);
+    } else if (displayValue.length === 6 && dot === false) {
+      display = display.substring(0, 1) + display.substring(2);
+      display = display.substring(0, 2) + '.' + display.substring(2);
+    } else if (display.length === 7 && dot === false) {
+      display = display.substring(0, 2) + display.substring(3);
+      display = display.substring(0, 3) + '.' + display.substring(3);
+    } else if (display.length === 8 && dot === false) {
+      display = display.substring(0, 3) + display.substring(4);
+      display = display.substring(0, 4) + '.' + display.substring(4);
+      display = display.substring(0, 1) + '.' + display.substring(1);
+    } else if (display.length === 10 && dot === false) {
+      display = display.substring(0, 1) + display.substring(2);
+      display = display.substring(0, 2) + '.' + display.substring(2); 
+      display = display.substring(0, 5) + display.substring(6);
+      display = display.substring(0, 6) + '.' + display.substring(6);
+    } else if (display.length === 11 && dot === false) {
+      display = display.substring(0, 2) + display.substring(3);
+      display = display.substring(0, 3) + '.' + display.substring(3);
+      display = display.substring(0, 6) + display.substring(7); 
+      display = display.substring(0, 7) + '.' + display.substring(7);
+    } else if (display.length === 12 && dot === false) {
+      display = display.substring(0, 3) + display.substring(4); 
+      display = display.substring(0, 4) + '.' + display.substring(4); 
+      display = display.substring(0, 7) + display.substring(8); 
+      display = display.substring(0, 8) + '.' + display.substring(8);
+      display = display.substring(0, 1) + '.' + display.substring(1);
+    }
+    document.querySelector('.js-display').innerText = display;
+    */
+  }
+
+</script>
+</body>
+</html>
