@@ -38,7 +38,7 @@
   .numbers-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
   }
 
   .number, .signs, .operator, .clear, .color {
@@ -53,8 +53,7 @@
     max-width: 120px;
     max-height: 120px;
     border-radius: 10vw;
-    margin: 10px auto;
-    margin-bottom: 0;
+    margin-bottom: 10px;
     cursor: pointer;
     transition: opacity 0.15s;
     transition: background 0.5s;
@@ -124,6 +123,9 @@
   }
 
   @media (max-width: 600px) {
+    .numbers-grid {
+      gap: 0;
+    }
     .calculator {
       width: 90vw;
     }
@@ -133,9 +135,8 @@
       max-width: 90px;
       max-height: 90px;
       font-size: 2.5em;
-      margin: 6px;
-      margin-left: 0;
-      margin-bottom: 6px;
+      margin: 0 8px;
+      margin-bottom: 8px;
     }
     .operator {
       font-size: 3.5em;
