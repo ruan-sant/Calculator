@@ -14,13 +14,14 @@
   }
 
   body {
-    height: 98vh;
+    height: 100vh;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     background: black;
     transition: background 0.5s;
+    overflow-x: hidden;
   }
 
   .body-purple {
@@ -123,11 +124,15 @@
   }
 
   @media (max-width: 600px) {
+    body {
+      align-items: flex-end;
+    }
     .numbers-grid {
-      gap: 0;
+      gap: 6px;
     }
     .calculator {
-      width: 90vw;
+      width: 100vw;
+      margin-bottom: 10px;
     }
     .number, .signs, .operator, .clear, .color {
       width: 20vw;
@@ -135,8 +140,7 @@
       max-width: 90px;
       max-height: 90px;
       font-size: 2.5em;
-      margin: 0 8px;
-      margin-bottom: 8px;
+      margin: 2px auto;
     }
     .operator {
       font-size: 3.5em;
